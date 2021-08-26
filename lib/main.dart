@@ -1,0 +1,227 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          toolbarHeight: 0,
+          shadowColor: Colors.transparent,
+        ),
+        body: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(width: 5),
+                Icon(Icons.clear, size: 40,color: Colors.grey,),
+                SizedBox(width: 20),
+                SizedBox(
+                  width: 270,
+                  height: 10,
+                    child: LinearProgressIndicator(
+                        value: 0.05,
+                    backgroundColor: Colors.grey[300],
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                    ),
+                ),
+                SizedBox(width: 15),
+                Icon(Icons.favorite, color: Colors.red),
+                SizedBox(width: 5),
+                Text('5',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+                ),
+              ],
+            ),
+            SizedBox(height: 6,),
+            Row(
+              children: [
+                SizedBox(width: 8),
+                Icon(Icons.stars, color: Colors.purple[400], size: 35,),
+                SizedBox(width: 5),
+                Text('NEW WORD',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.purple[400],
+                ),)
+              ],
+            ),
+            SizedBox(height: 8),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text('Which of these is "coffee"?',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 25,
+              ),
+              ),
+              ),
+            ),
+            SizedBox(
+              height: 510,
+              child: GridView.count(
+                  primary: false,
+                  padding: const EdgeInsets.all(13),
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.75,
+                  children: <Widget>[
+                     Container(
+                        padding: const EdgeInsets.all(8),
+                        child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              primary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              )
+                            ),
+                              onPressed: () {
+
+                              },
+                              child: Column(
+                                children: <Widget>[
+                                  SizedBox(height: 40),
+                                  Image.asset('images/milk.jpg', cacheHeight: 110, cacheWidth: 100,),
+                                  SizedBox(height: 40),
+                                  Text('Milch',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                  ),
+                                ],
+                              ),
+                        ),
+                     ),
+                     Container(
+                        padding: const EdgeInsets.all(8),
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            primary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              )
+                            )
+                          ),
+                          onPressed: () {
+
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(height: 40),
+                              Image.asset('images/bread.jpg', cacheHeight: 110, cacheWidth: 100),
+                              SizedBox(height: 40),
+                              Text('Brot',
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          primary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            )
+                          )
+                        ),
+                        onPressed: () {
+
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(height: 40),
+                            Image.asset('images/water.png', cacheHeight: 110, cacheWidth: 100),
+                            SizedBox(height: 40),
+                            Text('Wasser',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          primary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            )
+                          )
+                        ),
+                        onPressed: () {
+
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(height: 40),
+                            Image.asset('images/coffee.png', cacheHeight: 110, cacheWidth: 100),
+                            SizedBox(height: 40),
+                            Text('Kaffee',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ),
+                  ],
+              ),
+            ),
+            SizedBox(
+              width: 350,
+              height: 40,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.grey[300],
+                  onPrimary: Colors.grey[400],
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    )
+                  )
+                ),
+                  onPressed: () {
+
+                  },
+                  child: Text('CHECK',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.3,
+                    fontSize: 15
+                  ),
+                  ),
+                ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
