@@ -1,286 +1,378 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'main_model.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ChangeNotifierProvider<MainModel>(
-        create: (_) => MainModel(),
-        child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          toolbarHeight: 0,
-          shadowColor: Colors.transparent,
-        ),
-        body: HomePage(),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      ),
+      home: DuoLing(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class DuoLing extends StatefulWidget {
+  DuoLing({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return Consumer<MainModel>(builder: (context, model, child) {
-       return Column(
+  _DuoLingState createState() => _DuoLingState();
+}
+
+class _DuoLingState extends State<DuoLing> {
+  int chooseNumber = 0;
+
+  Widget GridTileView (String pictureurl, String text, int itemNumber) {
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: GestureDetector(
+        onTap: () {
+          chooseNumber = itemNumber;
+          setState(() {});
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: (() {
+              if (chooseNumber == itemNumber) {
+                return Colors.lightBlue.withOpacity(0.2);
+              } else {
+                return Colors.white;
+              }
+            })(),
+            borderRadius: BorderRadius.circular(10),
+            border: (() {
+              if (chooseNumber == itemNumber) {
+                return Border.all(width: 1.5, color: Colors.lightBlue.withOpacity(0.3));
+              } else {
+                return Border.all(color: Colors.grey, width: 1.5);
+              }
+            })(),
+          ),
+          child: Column(
+            children: [
+              Expanded(child: Container()),
+              Expanded(child: Image.asset(pictureurl)),
+              Expanded(child: Container()),
+              Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(text),),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget modal1() {
+    return Container(
+      color: Colors.lightGreen[200],
+      height: 150,
+      child: Column(
         children: [
           Row(
             children: [
-              SizedBox(width: 5),
-              Icon(Icons.clear, size: 40,color: Colors.grey,),
-              SizedBox(width: 20),
-              SizedBox(
-                width: 270,
-                height: 10,
-                child: LinearProgressIndicator(
-                  value: 0.05,
-                  backgroundColor: Colors.grey[300],
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-                ),
+              Padding(padding: EdgeInsets.all(8),
+              child: Text('Nicely done!',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.green
               ),
-              SizedBox(width: 15),
-              Icon(Icons.favorite, color: Colors.red),
-              SizedBox(width: 5),
-              Text('5',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
+              ),
+              ),
+              Expanded(child: Container()),
+              Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Icon(Icons.flag_outlined, color: Colors.green, size: 20,
+                  ),
               ),
             ],
           ),
-          SizedBox(height: 6,),
-          Row(
-            children: [
-              SizedBox(width: 8),
-              Icon(Icons.stars, color: Colors.purple[400], size: 35,),
-              SizedBox(width: 5),
-              Text('NEW WORD',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.purple[400],
-                ),)
-            ],
-          ),
-          SizedBox(height: 8),
-          Container(
-            margin: EdgeInsets.only(left: 10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Which of these is "coffee"?',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 25,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 510,
-            child: GridView.count(
-              primary: false,
-              padding: const EdgeInsets.all(13),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              crossAxisCount: 2,
-              childAspectRatio: 0.75,
-              children: <Widget>[
-                Container(
-                    padding: const EdgeInsets.all(8),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        )
-                      ),
-                      color: model.buttonColor4,
-                      onPressed: () {
-                        model.changeButtonColor4();
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(height: 40),
-                          Image.asset('images/milk.jpg', cacheHeight: 110, cacheWidth: 100,),
-                          SizedBox(height: 40),
-                          Text('Milch',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                ),
-                Container(
-                    padding: const EdgeInsets.all(8),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        )
-                      ),
-                      color: model.buttonColor3,
-                      onPressed: () {
-                        model.changeButtonColor3();
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(height: 40),
-                          Image.asset('images/bread.jpg', cacheHeight: 110, cacheWidth: 100,),
-                          SizedBox(height: 40),
-                          Text('Brot',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                ),
-                Container(
-                    padding: const EdgeInsets.all(8),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        )
-                      ),
-                      color: model.buttonColor2,
-                      onPressed: () {
-                        model.changeButtonColor2();
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(height: 40),
-                          Image.asset('images/water.png', cacheHeight: 110, cacheWidth: 100,),
-                          SizedBox(height: 40),
-                          Text('Wasser',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                ),
-                Container(
-                    padding: const EdgeInsets.all(8),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        )
-                      ),
-                      color: model.buttonColor1,
-                      onPressed: () {
-                        model.changeButtonColor1();
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(height: 40),
-                          Image.asset('images/coffee.png', cacheHeight: 110, cacheWidth: 100,),
-                          SizedBox(height: 40),
-                          Text('Kaffee',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 350,
-            height: 40,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.grey[300],
-                  onPrimary: Colors.grey[400],
-                  shadowColor: Colors.transparent,
-                  shape: RoundedRectangleBorder(
+          Padding(
+              padding: const EdgeInsets.all(8),
+              child: SizedBox(
+                width: 350,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lightGreen,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       )
-                  )
-              ),
-              onPressed: () {
-                showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Container(
-                        height: 150,
-                        color: Colors.lightGreen[200],
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text('Nicely done!',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green[700],
-                                      ),),
-                                  ),
-                                ),
-                                SizedBox(width: 230),
-                                Icon(Icons.outlined_flag, color: Colors.green[700],)
-                              ],
-                            ),
-                            SizedBox(height: 20),
-                            SizedBox(
-                              height: 40,
-                              width: 350,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.green[400],
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      )
-                                  ),
-                                  shadowColor: Colors.black,
-                                  elevation: 4,
-                                ),
-                                onPressed: () => Navigator.pop(context),
-                                child: Text('CONTINUE'),
-                              ),
-                            )
-                          ],
-                        )
-                    );
+                    )
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
                   },
-                );
-              },
-              child: Text('CHECK',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.3,
-                    fontSize: 15
+                  child: Text('CONTINUE'),
                 ),
               ),
-            ),
           ),
         ],
-      );
-    }
+      ),
+    );
+  }
+  Widget modal2() {
+    return Container(
+      color: Colors.redAccent,
+      height: 150,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text('one more try!',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  ),
+                  ),
+              Expanded(child: Container()),
+              Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Icon(Icons.flag_outlined, color: Colors.black, size: 20,
+                  ),
+              ),
+            ],
+          ),
+          Padding(
+              padding: const EdgeInsets.all(8),
+              child: SizedBox(
+                width: 350,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      )
+                    )
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('CONTINUE'),
+                ),
+              )
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 30),
+            Row(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: InkWell(
+                      onTap: (){},
+                      child: Icon(Icons.close, color: Colors.grey, size: 40,)),
+                ),
+                Expanded(
+                    child: Container(
+                      height: 15,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: (() {
+                          if (chooseNumber == 4) {
+                            return LinearProgressIndicator(
+                              value: 0.1,
+                              backgroundColor: Colors.grey[300],
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                            );
+                          } else {
+                            return LinearProgressIndicator(
+                              value: 0.05,
+                              backgroundColor: Colors.grey[300],
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                            );
+                          }
+                        })(),
+                      ),
+                    ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: InkWell(onTap: (){}, child: Icon(Icons.favorite, color: Colors.pink, size: 30,),
+                    ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Icon(Icons.stars, color: Colors.purple,),
+                Text('NEW WORD',
+                style: TextStyle(
+                  color: Colors.purple,
+                  fontWeight: FontWeight.bold,
+                ),
+                ),
+              ],
+            ),
+            Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Which of these is "coffee"?',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                    ),
+                  ],
+                ),
+            ),
+            Expanded(
+                child: Row(
+                  children: [
+                    Expanded(child: GridTileView('images/milk.jpg', 'Milch', 1)),
+                    Expanded(child: GridTileView('images/bread.jpg', 'Brot', 2)),
+                  ],
+                ),
+            ),
+            Expanded(
+                child: Row(
+                  children: [
+                    Expanded(child: GridTileView('images/water.png', 'Wasser', 3)),
+                    Expanded(child: GridTileView('images/coffee.png', 'Kaffee', 4)),
+                  ],
+                ),
+            ),
+            Padding(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: (() {
+                          if (chooseNumber == 0) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey[200],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10)
+                                  )
+                                )
+                              ),
+                                onPressed: null,
+                                child: Text('CHECK',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                            );
+                          } else if (chooseNumber == 1) {
+                            return ElevatedButton(
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    enableDrag: true,
+                                      backgroundColor: Colors.transparent,
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (BuildContext context) {
+                                      return modal2();
+                                      }
+                                      );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.lightGreen,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                child: Text('CHECK'),
+                            );
+                          } else if (chooseNumber == 2) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    enableDrag: true,
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return modal2();
+                                    }
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.lightGreen,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text('CHECK'),
+                            );
+                          } else if (chooseNumber == 3) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    enableDrag: true,
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return modal2();
+                                    }
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.lightGreen,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text('CHECK'),
+                            );
+                          } else {
+                            return ElevatedButton(
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    enableDrag: true,
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return modal1();
+                                    }
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.lightGreen,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text('CHECK'),
+                            );
+                          }
+                        })(),
+                    ),
+                  ],
+                ),
+            ),
+            SizedBox(height: 30),
+          ],),
+      ),
     );
   }
 }
